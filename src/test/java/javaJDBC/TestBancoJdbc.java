@@ -2,6 +2,7 @@ package javaJDBC;
 
 import conexaojdbc.SingleConnection;
 import dao.UserPosDAO;
+import model.BeanUserFone;
 import model.Telefone;
 import model.Userposjava;
 import org.junit.Test;
@@ -84,6 +85,7 @@ public class TestBancoJdbc {
         }
     }
 
+    //Adicionar telefones a Tabela de telefones relacionada ao usuário.
     @Test
     public void testeInsertTelefone() {
 
@@ -95,6 +97,20 @@ public class TestBancoJdbc {
         UserPosDAO userPosDAO = new UserPosDAO();
         userPosDAO.salvarTelefone(telefone);
 
+    }
+
+    //Retorna dados de Nome, E-mail, e telefone por ID.
+    @Test
+    public void testeCarregaFonesUser() {
+
+        UserPosDAO userPosDAO = new UserPosDAO();
+
+        List<BeanUserFone> beanUserFones = userPosDAO.listaUserFone(1L);
+
+        for (BeanUserFone beanUserFone : beanUserFones) {
+            System.out.println(beanUserFone);
+            System.out.println("================================");
+        }
     }
 
 }

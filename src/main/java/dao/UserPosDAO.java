@@ -1,6 +1,7 @@
 package dao;
 
 import conexaojdbc.SingleConnection;
+import model.BeanUserFone;
 import model.Telefone;
 import model.Userposjava;
 
@@ -40,6 +41,7 @@ public class UserPosDAO {
         }
     }
 
+    //INSERIR TELEFONE NA TABELA RELACIONADA AO USUÁRIO.
     public void salvarTelefone(Telefone telefone) {
 
         try {
@@ -100,6 +102,38 @@ public class UserPosDAO {
         return retorno;
     }
 
+    //RETORNA OS DADOS DE TELEFONE, EMAIL, E NOME DAS TABELAS RELACIONADAS.
+    public List<BeanUserFone> listaUserFone (long idUser) {
+
+        List<BeanUserFone> beanUserFones = new ArrayList<>();
+
+        String sql = " select nome, numero, email from telefoneuser as fone ";
+        sql += " inner join userposjava as userp ";
+        sql += " on fone.usuariopessoa = userp.id ";
+        sql += "  where userp.id = " + idUser;
+
+    try {
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+
+        while (resultSet.next()) {
+            BeanUserFone userFone = new BeanUserFone();
+            userFone.setEmail(resultSet.getString("email"));
+            userFone.setNome(resultSet.getString("nome"));
+            userFone.setNumero(resultSet.getString("numero"));
+
+            beanUserFones.add(userFone);
+
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return beanUserFones;
+}
+
+    //ATUALIZAR REGISTRO.
     public void atualizar (Userposjava userposjava) {
 
         try {
@@ -121,6 +155,7 @@ public class UserPosDAO {
         }
     }
 
+    //DELETAR REGISTRO.
     public void deletar(long id) {
         try {
         String sql = "delete from userposjava where id = " + id;
