@@ -171,8 +171,32 @@ public class UserPosDAO {
             }
             e.printStackTrace();
         }
-
     }
+
+    public void deleteFonesPorUser(Long idUser) {
+        try {
+
+            String sqlfone = "delete from telefoneuser where usuariopessoa =" + idUser;
+            String sqlUser = "delete from userposjava where id =" + idUser;
+
+            PreparedStatement statement = connection.prepareStatement(sqlfone);
+            statement.executeUpdate();
+            connection.commit();
+
+            statement = connection.prepareStatement(sqlUser);
+            statement.executeUpdate();
+            connection.commit();
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    }
+
 
     }
 

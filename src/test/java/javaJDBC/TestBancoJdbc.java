@@ -113,4 +113,11 @@ public class TestBancoJdbc {
         }
     }
 
+    @Test
+    public void testeDeleteUserFone() {
+
+        UserPosDAO userPosDAO = new UserPosDAO();
+        userPosDAO.deleteFonesPorUser(1L);
+    }
+
 }
